@@ -12,7 +12,7 @@ API developed from a book CRUD, where unit tests are performed and their percent
 <pre><code>go get github.com/jinzhu/gorm/dialects/postgres</code></pre>
 
 # Download GoDotEnv
-<pre><code>go get go get github.com/joho/godotenv</code></pre>
+<pre><code>go get github.com/joho/godotenv</code></pre>
 
 # API
 <h3>localhost:5000/</h3>
