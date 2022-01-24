@@ -2,6 +2,7 @@ package database
 
 import (
 	"log"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	"github.com/kfsantos/books/models"
@@ -10,20 +11,13 @@ import (
 var DB *gorm.DB
 
 func Setup() {
-	host := "localhost"
-	port := "5432"
-	dbname := "root"
-	user := "root"
-	password := "root"
-	//docker
-	// str := "user=root dbname=root password=root host=localhost sslmode=disable"
-	// str := "user=postgres dbname=alura_loja password=1234 host=localhost sslmode=disable"
-	db, err := gorm.Open("postgres",
-		" host="+host+
-			" port="+port+
-			" user="+user+
-			" dbname="+dbname+
-			" sslmode=disable password="+password)
+	db, err := gorm.Open(
+		os.Getenv("DB_CONNECTION"),
+			"host="+os.Getenv("DB_HOST")+
+			" port="+os.Getenv("DB_PORT")+
+			" user="+os.Getenv("DB_USERNAME")+
+			" dbname="+os.Getenv("DB_DATABASE")+
+			" sslmode=disable password="+os.Getenv("DB_PASSWORD"))
 	if err != nil {
 		log.Fatal(err)
 	}
