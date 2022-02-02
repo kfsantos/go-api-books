@@ -82,14 +82,7 @@ func (a *APIEnv) DeleteBook(c *gin.Context) {
 	} else {
 		database.DeleteBook(id, a.DB)
 	}
-
-	// err = database.DeleteBook(id, a.DB)
-	// if err != nil {
-	// 	fmt.Println("Error ao deletar------------->", err)
-	// 	c.JSON(http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
-
+	
 	c.JSON(http.StatusOK, "record deleted successfully")
 }
 
@@ -112,15 +105,16 @@ func (a *APIEnv) UpdateBook(c *gin.Context) {
 
 	err = c.ShouldBindJSON(&updatedBook)
 	if err != nil {
+		//Verifica se os dados do form estão vazio
+		if err.Error() == "EOF" {
+			c.JSON(http.StatusBadRequest, "Empty fields, no data to update!")
+			return
+		}
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	} else {
 		database.UpdateBook(a.DB, &updatedBook)
 	}
 
-	// if err := database.UpdateBook(a.DB, &updatedBook); err != nil {
-	// 	c.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
 	c.JSON(http.StatusOK, updatedBook)
 }
