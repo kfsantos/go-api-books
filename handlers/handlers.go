@@ -49,7 +49,11 @@ func (a *APIEnv) CreateBook(c *gin.Context) {
 	book := models.Book{}
 	err := c.BindJSON(&book)
 	if err != nil {
-		fmt.Println(err)
+		//Verifica se os dados do form estão vazio
+		if err.Error() == "EOF" {
+			c.JSON(http.StatusBadRequest, "Empty fields, no data to save!")
+			return
+		}		
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
