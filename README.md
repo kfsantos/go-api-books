@@ -44,7 +44,10 @@ API developed from a book CRUD, where unit tests are performed and their percent
 }
 </code></pre>
 
-# Test
+# Test 
+<h3>To create test files</h3>
+<pre><code>gotests -all -w .</code></pre>
+
 <h3>Create Tests</h3>
 <pre><code>go test -v ./...</code></pre>
 
