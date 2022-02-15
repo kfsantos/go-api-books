@@ -55,7 +55,7 @@ API developed from a book CRUD, where unit tests are performed and their percent
 <ul>
   <h4>create cover profiler</h4>
   <li>
-    <pre><code>go test -coverprofile<nameController></code></pre>
+    <pre><code>go test -coverprofile name<nameController></code></pre>
   </li>
   <h4>open cover profiler</h4>
   <li>
