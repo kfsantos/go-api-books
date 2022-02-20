@@ -88,32 +88,29 @@ func (a *APIEnv) DeleteBook(c *gin.Context) {
 
 func (a *APIEnv) UpdateBook(c *gin.Context) {
 	id := c.Params.ByName("id")
-
-	_, exists, err := database.GetBookByID(id, a.DB)
-
+	newid, err := strconv.Atoi(id)
+	
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, err.Error())
+		c.JSON(http.StatusBadRequest, "A valid identifier is required")
 		return
 	}
-
-	if !exists {
+	updatedBook := models.Book{}
+	err = a.DB.First(&updatedBook, newid).Error
+	
+	if err != nil {
 		c.JSON(http.StatusNotFound, "record not exists")
 		return
 	}
 
-	updatedBook := models.Book{}
-
 	err = c.ShouldBindJSON(&updatedBook)
-	if err != nil {
-		//Verifica se os dados do form estão vazio
-		if err.Error() == "EOF" {
-			c.JSON(http.StatusBadRequest, "Empty fields, no data to update!")
-			return
-		}
+	if err != nil {		
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
-	} else {
-		database.UpdateBook(a.DB, &updatedBook)
+	} 
+	err = a.DB.Save(&updatedBook).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, "Unable to update item!")
+		return
 	}
 
 	c.JSON(http.StatusOK, updatedBook)
